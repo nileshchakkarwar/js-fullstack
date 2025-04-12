@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>CSS Selector Demo</title>
+    <style>
+        /* Universal Selector */
+        *{
+            background-color: black;
+            color: goldenrod;
+        }
+        /* Selecting by ID generally used for selecting single element */
+        #id001 {
+            background-color: yellow;
+        }
+        /* Class is used to target multiple TAGs at the same time */
+        .styling-a-class {
+            background-color: purple;
+        }
+        /* Target the first child */
+        div > p {
+            background-color: teal;
+        }
+        /* Target any p if it is decendant of div */
+        div p{
+            background-color: pink;
+        }
+
+        /* psudo selector */
+        p:hover{
+            background-color: blueviolet;
+        }
+
+    </style>
+</head>
+<body>
+    <div id="id001">This is a div that has id001</div>
+    <div style="height: 20px;"></div> <!-- This is empty div used for spacing -->
+    <div class="styling-a-class">This is the first div for styling a class</div>
+    <div class="styling-a-class">This is the second div for styling a class</div>
+    <div style="height: 10px;"></div> <!-- This is empty div used for spacing -->
+    <div>
+        <p>This is the first child of of div</p>
+    </div>
+    <div style="height: 10px;"></div> <!-- This is empty div used for spacing -->
+    <div>
+        <h4>
+            <p>This is a p-tag inside 2 divs</p>
+        </h4>
+    </div>
+
+</body>
+</html>

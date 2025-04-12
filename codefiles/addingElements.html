@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Adding Elements to Dom</title>
+</head>
+<body style="background-color: rgb(47, 57, 57); color: rgb(13, 203, 13);">
+    <!-- Here just basic code is added -->
+     <div class="parent">
+        <div class = 'child'>Monday</div>
+        <div class = 'child'>Tuesday</div>
+        <div class = 'child'>Wednesday</div>
+        <div class = 'child'>Thursday</div>
+        <div class = 'child'>Friday</div>
+     </div>
+</body>
+ <script>
+    const parentDiv = document.querySelector('.parent');
+    // '**********Displays all element from line 10 - 16')
+    console.log(parentDiv); 
+    const childrenDiv = parentDiv.children;
+    
+    //**********Displays a HTMLCollection from line 11 to 15')
+    console.log(parentDiv.children); 
+    const arrChildDiv = Array.from(childrenDiv);
+    
+    // **********Displays Array of child elements')
+    console.log(arrChildDiv);
+    
+    // Displays the Text
+    arrChildDiv.forEach((item)=>console.log(item.innerHTML));   
+
+    // changing the color of alternative row
+    for(let i = 0; i < parentDiv.children.length;i+=2){
+        childrenDiv[i].style.backgroundColor = 'white';
+    }
+    
+    // First Element Child ➯ Monday's div gets printed
+    console.log(parentDiv.firstElementChild);
+
+    // First Element Child ➯ Monday's div gets printed
+    console.log(parentDiv.lastElementChild);
+
+    // Traversing from child to parent
+    let child1Monday = document.querySelector('.child'); //this will yield Monday div
+    console.log(child1Monday.parentElement); // this will give the parent div will all children
+
+    // Traversing to sibling
+    let siblingMonday = document.querySelector('.child')
+    console.log(siblingMonday.nextElementSibling); // Tuesday sibling div will be shown
+    console.log(siblingMonday.previousElementSibling); //null as no sibling
+
+    //ChildNodes ➯ This will show text and the divs
+    console.log(parentDiv.childNodes);// it will have text and div alternate coz new line is treated as text node
+ </script>
+</html>
