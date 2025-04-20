@@ -9,6 +9,6 @@
 ||Code File|- NA|
 ||Image File|- NA|
 ||||
-|Basic HTTP server |Text Notes|- [Theory](/sheryians/backendDomination/03-codeTxtFiles/basicServer.txt)|
-||Code File|- [Basic Eg](/sheryians/backendDomination/03-codeTxtFiles/basicServer.js)|
+|Basic HTTP server |Text Notes|- [Theory](/sheryians/backendDomination/02-codeTxtFiles/basicServer.txt)|
+||Code File|- [Basic Eg](/sheryians/backendDomination/02-codeTxtFiles/basicServer.js)|
 ||Image File|- NA|
