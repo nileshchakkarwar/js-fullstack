@@ -1,5 +1,5 @@
 - JS is a single threaded webserver
-- By doing using **http.createServer()** we are formally defining the thread
+- By doing using **http.createServer()** we are formally defining the thread that will always be ready to accept any requests directed towards it
 
 - req -in-> node -out-> rsp
     - req and rsp are terminologies that are always in context of server.

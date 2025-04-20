@@ -1,0 +1,45 @@
+-----------------------------------------------------------------------------------------
+Informational: 
+    100 - Basic acknowledgement
+    101 - Indicates change of protocol, say from http to webRTC or udp or FTP
+
+-----------------------------------------------------------------------------------------
+Success: 
+    200 - OK status, all good and nothing remains to be sent from server side
+    201 - create a resource on DB/server, eg post, reply comment
+        - has either response body/ location header
+    202 - Accepted ur request, working on it will update the final result
+        - eg async request might take time 
+        - eg facebook server has to fetch some data from whatsapp, at that time the user is notified with 202
+    203 - Forwarded to other server that will work on it;
+        - If a proxy server caches a webpage and returns the cached version instead of retrieving it from the original server, it might use a 203 status code to indicate this.
+        - Request forwarded to third party or
+        - request forwarded to another server in distributed system
+    204 -  No Content
+
+-----------------------------------------------------------------------------------------
+Redirect: 
+    301 v/s 308 - Moved Permanently
+                - Eg www.facebook.com ->301-> meta.com
+                - 308 enforces the original request method, while 301 allows for a change.
+    302 v/s 307 - Temp redirect
+                - 307 enforces the original req while 302 might update the req from post to get
+                - In cases where a request requires authentication or authorization, a 307 redirect can be used to direct users to a login page while preserving the original request method. 
+                - Or when url is undermaintenance
+  
+-----------------------------------------------------------------------------------------
+User Errors:
+    400 - Bad Request; Generic error code
+    401 - Unauthorized; Access Token expired or required
+    403 - Forbidden, u have valid token but u cann't access this resource
+        - User-1 asking data about User-2 private information
+    404 - Not found
+
+-----------------------------------------------------------------------------------------
+Server Errors:
+    500 - Generic error; Internal Server error
+    502 - Bad gateway!
+        - proxy receiving invalid response from the upstream server 
+    503 - Service Unavailable
+        - Load
+        - 1 service within microservice failed 
