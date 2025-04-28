@@ -21,7 +21,7 @@ Success:
 Redirect: 
     301 v/s 308 - Moved Permanently
                 - Eg: www.facebook.com ->301-> meta.com
-                - 308 enforces the original request method, while 301 allows for a change.
+                - 308 enforces the original request method, while 301 allows for a change in method
     302 v/s 307 - Temp redirect
                 - 307 enforces the original req while 302 might update the req from post to get
                 - In cases where a request requires authentication or authorization 
@@ -42,5 +42,5 @@ Server Errors:
     502 - Bad gateway!
         - proxy receiving invalid response from the upstream server 
     503 - Service Unavailable
-        - Load
-        - 1 service within microservice failed 
+        - Load on server
+        - 1 service within microservice ecosystem failed 

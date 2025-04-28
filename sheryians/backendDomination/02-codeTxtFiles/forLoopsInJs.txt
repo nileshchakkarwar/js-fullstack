@@ -1,11 +1,11 @@
 for:
 	desc:	General purpose
-	arr:   	for(let I; i< arrOfNumbers.lenght;i++){}
+	arr:   	for(let I; i< array.lenght;i++){}
 	obj:	for(let I; I< Object.keys(anyObject); i++){}
 
 for-of:
 	desc:	preferred for value extraction
-	arr:	for(let elm of arrOfNumers){}
+	arr:	for(let elm of array){}
 	obj: 	for(let [k,v] of Object.entries(anyObject)){}
 	
 for-in
@@ -15,7 +15,7 @@ for-in
 
 forEach
 	desc:	use mostly in UI; doesn't return anything 😒
-	arr: 	arrOfChars.forEach(elm => console.log(elm)); 
+	arr: 	arrOfChars.forEach((elm,i) => console.log(elm)); 
 	obj:	NA❌
 
 map	
