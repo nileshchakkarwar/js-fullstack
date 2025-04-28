@@ -35,6 +35,11 @@
 ||Code File|- NA|
 ||Image File|- NA|
 ||||
+|Session v/s cookies|||
+||Text Notes|- NA|
+||Code File|- NA|
+||Image File|- NA|
+||||
 |=-=-=-=-=|||
 ||Text Notes|- NA|
 ||Code File|- NA|
