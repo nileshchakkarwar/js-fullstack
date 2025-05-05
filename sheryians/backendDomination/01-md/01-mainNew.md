@@ -1,5 +1,5 @@
 # Sheryians Node Backend Domination
-<!-- <pre style="font-family:Consolas;font-size=18px"> -->
+<!-- <pre style="font-family:Consolas;font-size=18px">
 <pre>
 Course Details          :   <a href="#course-details-section">Course Link & Github repo details</a>
 ----------------------------------------------------------------------------------------------------
@@ -16,115 +16,133 @@ import vs require       :   <a href="#import-vs-require">import-vs-require</a>
 middleware              :   <a href="#middleware">middleware</a>
 
 
-</pre>
+</pre> -->
+
+- [Sheryians Node Backend Domination](#sheryians-node-backend-domination)
+  - [Course Details and some useful links for documentation](#course-details-and-some-useful-links-for-documentation)
+  - [forLoop all variation](#forloop-all-variation)
+  - [node vs nodemon](#node-vs-nodemon)
+  - [http server vs express server](#http-server-vs-express-server)
+  - [status codes](#status-codes)
+  - [import vs require](#import-vs-require)
+  - [middleware](#middleware)
+    - [sessions](#sessions)
+
 
 
 <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
 
-##=-=-=-=-=-=-=-=
-<pre>
+## Course Details and some useful links for documentation
+<pre >
+<a href="#sheryians-node-backend-domination" style="float:right">Top</a>
+    Course Link             :       <a href="https://sheryians.com/courses/courses-details/Back-End%20Domination:%20Create%20Efficient%20Back-End">This is direct link to Sheryian Website</a>
+    Github Repo link        :       <a href="https://github.com/nileshchakkarwar/js-fullstack">Github: RepoName: js-fullstack</a>     
+    [Old] Gitlab Repo link  :       <a href="https://gitlab.com/nileshchakkarwar/nodejs-sheryians">Gitlab:nodejs-sheryians</a>
 </pre>
-<a href="#sheryians-node-backend-domination" style="float:right">Top</a><br>
-
-## middleware
 <pre>
-    <div style="background-color:#FEE7E7">
-        How to identify middleware function?
-            - Any function that has access to req, res, next is a middleware function
+<a href="#sheryians-node-backend-domination" style="float:right">Top</a>
+    Good colors hex         
+        - netural to blue     :       #F5EFE6 #E8DFCA #AEBDCA #7895B2
+        - neturals to beige   :       #FDEFEF #F4DFD0 #DAD0C2 #CDBBA7         
+    Color pallet            :       <a href="https://colorhunt.co/palettes/popular">https://colorhunt.co/palettes/popular</a>
+    HTML playground         :       <a href="https://developer.mozilla.org/en-US/play">https://developer.mozilla.org/en-US/play</a>
+</pre>
 
-        Then does app.get(route, handler) has access to req, res, next?
-            - yes it does, then what is difference between this and middleware?
-            - middleware is a super set of which routes are a subset!
-            - so very route function is middleware
+## forLoop all variation
+<pre>
+<a href="#sheryians-node-backend-domination" style="float:right">Top</a>
+    for:
+        desc:	General purpose
+        arr:   	for(let I; i< array.lenght;i++){}
+        obj:	for(let I; I< Object.keys(anyObject); i++){}
 
-        Why? - need of middleware
-            - Eg Kafka is middleware but in terms of node middleware is bit different
-            - think of it as a hook
-            -  The flow is as below (using tricle down, step struct, to indicate the flow sequence)
-                - Browser ⬇️
-                    - middleware ⬇️
-                        - route functions ⬇️
-                            - route handlers!
+    for-of:
+        desc:	preferred for value extraction
+        arr:	for(let elm of array){}
+        obj: 	for(let [k,v] of Object.entries(anyObject)){}
+        
+    for-in
+        desc:	preferred for key extraction!
+        arr:	for(let x in arrOfChars){} will return index as they are the keys of arrays!
+        obj:	for(let key in anyObject){}
 
-        Usecases of middleware.
-            - Authentication and Authorization
-            - Every request needs to be Authenticated 
-            - Think of it as fixtures in playwright that run before each testcase
-            - ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-            - check something before it reaches the route function
-            - add something to the request before it reaches the route function use middleware
-    </div>
+    forEach
+        desc:	use mostly in UI; doesn't return anything 😒
+        arr: 	arrOfChars.forEach((elm,i) => console.log(elm)); 
+        obj:	NA❌
 
-    <strong>HTTP Server Code Ref:</strong>
-    ------------------------------------------------------------------------------------------------
+    map	
+        desc:	want output use map instead of forEach
+        arr: 	arrOfChars.map(elm=> elm+'anyOperation'); 
+        obj:	NA❌
+</pre>
+
+## node vs nodemon
+<pre>
+<a href="#sheryians-node-backend-domination" style="float:right">Top</a>
+    nodemon
+        - a dev dependancy
+        - <b><i>npm install nodemon --save-dev</b></i> to indicate as dev env only and not required in prod env
+
+    How to run?
+        - node <i>path-to-app-server-file</i>
+        - <b>NPX</b> nodemon <i>path-to-app-server-file</i>
+
+    Benefit of nodemon over node
+        - if not nodemon then we have to 
+        - stop the node server cntrl+c
+        - run the node <i>path-to-app-server-file</i> command to reload the server
+
+    Working logic
+        - as soon as we save the file the change is detected by nodemon and server is reloaded
+</pre>
+
+## http server vs express server
+<pre style="background-color:#F0EBE3">
+<a href="#sheryians-node-backend-domination" style="float:right">Top</a>
+        - JS is a single threaded webserver
+        - By doing using <b>http.createServer()</b> we are formally defining the thread that will always 
+          be ready to accept any requests directed towards it
+
+        - req ➡️ node ➡️ rsp
+            - req and rsp are terminologies that are always in context of server.
+            - requesting a server
+            - response from a server
+</pre>
+    
+###- HTTP Server Code Reference
+<pre>
+<a href="#sheryians-node-backend-domination" style="float:right">Top</a>
+    <code class="language-js line-numbers">
+        const http = require('http');
+
+        const server = http.createServer((req, res) => {
+            res.statusCode = 200;
+            res.setHeader('Content-Type', 'text/plain');
+            res.end('Hello World\n');
+        });
+
+        server.listen(3000);
+    </code>
+</pre>
+
+###- Express Code Reference
+<pre>
+<a href="#sheryians-node-backend-domination" style="float:right">Top</a>
     <code class="language-js line-numbers">
         const express = require('express');
         const app = express();
-
-        function middleFunc1(req, res, next) {
-            console.log('In middleFunc1');
-            next(); // to continue the flow, if not mentioned then request will stand here only
-        }
-
-        function middleFunc2(req, res, next) {
-            console.log('In middleFunc2');
-            next();
-        }
-
-        function middleFunc3(req, res, next) {
-            console.log('In middleFunc3');
-            next();
-        }
-
-        app.use(middleFunc2, middleFunc1);
+        const port = 3000;
 
         app.get('/', (req, res) => {
-            res.send('Testing Middleware');
-        })
-
-        app.listen(3000);
-    </code>
-
-</pre>
-<a href="#sheryians-node-backend-domination" style="float:right">Top</a><br>
-
-## import vs require
-<pre>
-    <strong>Feature              require                import</strong>
-    ------------------------------------------------------------------------
-    New vs old           OLD                    Modern   
-    Module System        CommonJS               ES Modules (ESM)
-    Execution            Runtime (synchronous)  Compile-time (asynchronous)
-    Environment          Node.js                Modern JS (Node + Browser)
-    Top-level use        Can use anywhere       Must be at the top level
-    Dynamic loading      Easy (require())       Use import() for dynamic
-
-    <strong>import ; multiple imports ; require</strong>
-    <code class="language-js line-numbers">
-        import fs from 'fs';
-        
-        //---------------------------------------
-        
-        import {
-            foo, bar,
-          } from './myModule.js';
-
-        //---------------------------------------
-        
-        import {
-            reallyLongFunctionName as shortName,
-            anotherOne as ao
-          } from './utils.js';
-
-        //---------------------------------------
-
-        const fs = require('fs');     
+          res.send('Hello World!');
+        });
     </code>
 </pre>
-<a href="#sheryians-node-backend-domination" style="float:right">Top</a><br>
 
 ## status codes
 <pre>
+<a href="#sheryians-node-backend-domination" style="float:right">Top</a>
     Informational: 
         100 - Basic acknowledgement
         101 - Indicates change of protocol, say from http to webRTC or udp or FTP
@@ -138,7 +156,8 @@ middleware              :   <a href="#middleware">middleware</a>
             - eg async request might take time 
             - eg facebook server has to fetch some data from whatsapp, at that time the user is notified with 202
         203 - Forwarded to other server that will work on it;
-            - If a proxy server caches a webpage and returns the cached version instead of retrieving it from the original server, it might use a 203 status code to indicate this.
+            - If a proxy server caches a webpage and returns the cached version instead of 
+              retrieving it from the original server, it might use a 203 status code to indicate this.
             - Request forwarded to third party or
             - request forwarded to another server in distributed system
         204 -  No Content
@@ -171,103 +190,157 @@ middleware              :   <a href="#middleware">middleware</a>
             - Load on server
             - 1 service within microservice ecosystem failed
 </pre>
-<a href="#sheryians-node-backend-domination" style="float:right">Top</a><br>
 
-## http server vs express server
+## import vs require
+
+|Feature|require|import|
+|-|-|-|
+|New vs old           |OLD                    |Modern   |
+|Module System        |CommonJS               |ES Modules (ESM)|
+|Execution            |Runtime (synchronous)  |Compile-time (asynchronous)|
+|Environment          |Node.js                |Modern JS (Node + Browser)|
+|Top-level use        |Can use anywhere       |Must be at the top level|
+|Dynamic loading      |Easy (require())       |Use import() for dynamic|
+
+
+###- import ; multiple imports ; require
 <pre>
+<a href="#sheryians-node-backend-domination" style="float:right">Top</a>
+<code class="language-js line-numbers">
+        import fs from 'fs';
+        
+        //---------------------------------------
+        
+        import {
+            foo, bar,
+          } from './myModule.js';
+
+        //---------------------------------------
+        
+        import {
+            reallyLongFunctionName as shortName,
+            anotherOne as ao
+          } from './utils.js';
+
+        //---------------------------------------
+
+        const fs = require('fs');     
+</code>
+</pre>
+
+## middleware
+<pre>
+<a href="#sheryians-node-backend-domination" style="float:right">Top</a>
     <div style="background-color:#FEE7E7">
-        - JS is a single threaded webserver
-        - By doing using <b>http.createServer()</b> we are formally defining the thread that will always 
-          be ready to accept any requests directed towards it
+        How to identify middleware function?
+            - Any function that has access to req, res, next is a middleware function
 
-        - req ➡️ node ➡️ rsp
-            - req and rsp are terminologies that are always in context of server.
-            - requesting a server
-            - response from a server
+        Then does app.get(route, handler) has access to req, res, next?
+            - yes it does, then what is difference between this and middleware?
+            - middleware is a super set of which routes are a subset!
+            - so very route function is middleware
+
+        Why? - need of middleware
+            - Eg Kafka is middleware but in terms of node middleware is bit different
+            - think of it as a hook
+            -  The flow is as below (using tricle down, step struct, to indicate the flow sequence)
+                - Browser ⬇️
+                    - middleware ⬇️
+                        - route functions ⬇️
+                            - route handlers!
+
+        Usecases of middleware.
+            - Authentication and Authorization
+            - Every request needs to be Authenticated 
+            - Think of it as fixtures in playwright that run before each testcase
+            - ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+            - check something before it reaches the route function
+            - add something to the request before it reaches the route function use middleware
     </div>
-    
-    <strong>HTTP Server Code Ref:</strong>
-    ------------------------------------------------------------------------------------------------
-    <code class="language-js line-numbers">
-        const http = require('http');
+</pre>
 
-        const server = http.createServer((req, res) => {
-            res.statusCode = 200;
-            res.setHeader('Content-Type', 'text/plain');
-            res.end('Hello World\n');
-        });
-
-        server.listen(3000);
-    </code>
-
-    <strong>HTTP Server Code Ref:</strong>
-    ------------------------------------------------------------------------------------------------
+###- <strong>HTTP Server Code Ref:</strong>
+<pre>
+<a href="#sheryians-node-backend-domination" style="float:right">Top</a>
     <code class="language-js line-numbers">
         const express = require('express');
         const app = express();
-        const port = 3000;
+
+        function middleFunc1(req, res, next) {
+            console.log('In middleFunc1');
+            next(); // to continue the flow, if not mentioned then request will stand here only
+        }
+
+        function middleFunc2(req, res, next) {
+            console.log('In middleFunc2');
+            next();
+        }
+
+        function middleFunc3(req, res, next) {
+            console.log('In middleFunc3');
+            next();
+        }
+
+        app.use(middleFunc2, middleFunc1);
 
         app.get('/', (req, res) => {
-          res.send('Hello World!');
-        });
+            res.send('Testing Middleware');
+        })
+
+        app.listen(3000);
     </code>
-
 </pre>
-<a href="#sheryians-node-backend-domination" style="float:right">Top</a><br>
 
-## node vs nodemon
+
+### sessions
 <pre>
-    nodemon
-        - a dev dependancy
-        - <b><i>npm install nodemon --save-dev</b></i> to indicate as dev env only and not required in prod env
+<a href="#sheryians-node-backend-domination" style="float:right">Top</a>
+- Session vs cookies❓
+    - A temp datastore
+    - Stays only till the server is up and running
+    - other words if server restarted then the session is wiped out
+    - Cookies are for Frontend where as sessions are for backend
 
-    How to run?
-        - node <i>path-to-app-server-file</i>
-        - <b>NPX</b> nodemon <i>path-to-app-server-file</i>
+- Caution with session⚠️
+    - Since after restart they vanish, need to be careful
 
-    Benefit of nodemon over node
-        - if not nodemon then we have to 
-        - stop the node server cntrl+c
-        - run the node <i>path-to-app-server-file</i> command to reload the server
-
-    Working logic
-        - as soon as we save the file the change is detected by nodemon and server is reloaded
+- Usecase
+    - EG Say you want to send data from 1 process to other process or 1 program to other
+    - In that case u create a temp file write to file and read that file
+    - session is just like that file but in-memory file
 </pre>
-<a href="#sheryians-node-backend-domination" style="float:right">Top</a><br>
 
-## forLoop all variation
+####- How to use sessions in code
 <pre>
-    for:
-        desc:	General purpose
-        arr:   	for(let I; i< array.lenght;i++){}
-        obj:	for(let I; I< Object.keys(anyObject); i++){}
+    <code class="language-js line-numbers">
+    const express = require('express');
+    const app = express();
+    const expressSession = require('express-session');
 
-    for-of:
-        desc:	preferred for value extraction
-        arr:	for(let elm of array){}
-        obj: 	for(let [k,v] of Object.entries(anyObject)){}
-        
-    for-in
-        desc:	preferred for key extraction!
-        arr:	for(let x in arrOfChars){} will return index as they are the keys of arrays!
-        obj:	for(let key in anyObject){}
+    const session = expressSession({
+        secret: 'gfg-key',      // encrypt the session on server
+        resave: false,          // don't save session if unmodified
+        saveUninitialized: true // don't create session until something 
+                                   // stored eg if user just visits the page wihtout loging in
+    });
 
-    forEach
-        desc:	use mostly in UI; doesn't return anything 😒
-        arr: 	arrOfChars.forEach((elm,i) => console.log(elm)); 
-        obj:	NA❌
+    app.use(session); // use session in express app
 
-    map	
-        desc:	want output use map instead of forEach
-        arr: 	arrOfChars.map(elm=> elm+'anyOperation'); 
-        obj:	NA❌
+    app.get('/', (req, res) => {
+        // check if session is already created
+        if (req.session.views) {
+            req.session.views++;
+            res.send(`You have visited this page ${req.session.views} times`);
+        } else {
+            req.session.views = 1;
+            res.send('Welcome to the session demo. Refresh!');
+        }
+    }
+    );
+    </code>
 </pre>
-<a href="#sheryians-node-backend-domination" style="float:right">Top</a><br>
-
-## Course Details section
+##=-=-=-=-=-=-=-=
 <pre>
-    Course Link             :       <a href="https://sheryians.com/courses/courses-details/Back-End%20Domination:%20Create%20Efficient%20Back-End">This is direct link to Sheryian Website</a>
-    Github Repo link        :       <a href="https://github.com/nileshchakkarwar/js-fullstack">Github: RepoName: js-fullstack</a>     
-    [Old] Gitlab Repo link  :       <a href="https://gitlab.com/nileshchakkarwar/nodejs-sheryians">Gitlab:nodejs-sheryians</a>
+<a href="#sheryians-node-backend-domination" style="float:right">Top</a>
+<hr style="height:.5px;background-color:black">
 </pre>
-<a href="#sheryians-node-backend-domination" style="float:right">Top</a><br>
