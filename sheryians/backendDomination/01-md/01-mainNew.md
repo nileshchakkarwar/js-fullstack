@@ -26,7 +26,7 @@ middleware              :   <a href="#middleware">middleware</a>
   - [status codes](#status-codes)
   - [import vs require](#import-vs-require)
   - [middleware](#middleware)
-    - [sessions](#sessions)
+  - [=-=-=-=-=-=-=-=](#-------)
 
 
 
@@ -41,11 +41,11 @@ middleware              :   <a href="#middleware">middleware</a>
 </pre>
 <pre>
 <a href="#sheryians-node-backend-domination" style="float:right">Top</a>
-    Good colors hex         
-        - netural to blue     :       #F5EFE6 #E8DFCA #AEBDCA #7895B2
-        - neturals to beige   :       #FDEFEF #F4DFD0 #DAD0C2 #CDBBA7         
-    Color pallet            :       <a href="https://colorhunt.co/palettes/popular">https://colorhunt.co/palettes/popular</a>
-    HTML playground         :       <a href="https://developer.mozilla.org/en-US/play">https://developer.mozilla.org/en-US/play</a>
+    1. Good colors hex
+       1. netural to blue     :       #F5EFE6 #E8DFCA #AEBDCA #7895B2
+       2. neturals to beige   :       #FDEFEF #F4DFD0 #DAD0C2 #CDBBA7
+    2. Color pallet           :       <a href="https://colorhunt.co/palettes/popular">https://colorhunt.co/palettes/popular</a>
+    3. HTML playground        :       <a href="https://developer.mozilla.org/en-US/play">https://developer.mozilla.org/en-US/play</a>
 </pre>
 
 ## forLoop all variation
@@ -53,27 +53,27 @@ middleware              :   <a href="#middleware">middleware</a>
 <a href="#sheryians-node-backend-domination" style="float:right">Top</a>
     for:
         desc:	General purpose
-        arr:   	for(let I; i< array.lenght;i++){}
-        obj:	for(let I; I< Object.keys(anyObject); i++){}
+        arr:   	for(let i; i< array.lenght;i++){}
+        obj:	for(let i; i< Object.keys(anyObject); i++){}
 
     for-of:
         desc:	preferred for value extraction
         arr:	for(let elm of array){}
         obj: 	for(let [k,v] of Object.entries(anyObject)){}
         
-    for-in
+    for-in:
         desc:	preferred for key extraction!
-        arr:	for(let x in arrOfChars){} will return index as they are the keys of arrays!
+        arr:	for(let x in array){} will return index as they are the keys of arrays!
         obj:	for(let key in anyObject){}
 
-    forEach
+    forEach:
         desc:	use mostly in UI; doesn't return anything 😒
-        arr: 	arrOfChars.forEach((elm,i) => console.log(elm)); 
+        arr: 	array.forEach((elm,i) => console.log(elm)); 
         obj:	NA❌
 
-    map	
+    map:	
         desc:	want output use map instead of forEach
-        arr: 	arrOfChars.map(elm=> elm+'anyOperation'); 
+        arr: 	array.map(elm=> elm+'anyOperation'); 
         obj:	NA❌
 </pre>
 
@@ -98,7 +98,7 @@ middleware              :   <a href="#middleware">middleware</a>
 </pre>
 
 ## http server vs express server
-<pre style="background-color:#F0EBE3">
+<pre>
 <a href="#sheryians-node-backend-domination" style="float:right">Top</a>
         - JS is a single threaded webserver
         - By doing using <b>http.createServer()</b> we are formally defining the thread that will always 
@@ -110,7 +110,8 @@ middleware              :   <a href="#middleware">middleware</a>
             - response from a server
 </pre>
     
-###- HTTP Server Code Reference
+<h4 style="text-align:center">HTTP Server Code Reference</h4>
+
 <pre>
 <a href="#sheryians-node-backend-domination" style="float:right">Top</a>
     <code class="language-js line-numbers">
@@ -126,7 +127,8 @@ middleware              :   <a href="#middleware">middleware</a>
     </code>
 </pre>
 
-###- Express Code Reference
+<h4 style="text-align:center">Express Code Reference</h4>
+
 <pre>
 <a href="#sheryians-node-backend-domination" style="float:right">Top</a>
     <code class="language-js line-numbers">
@@ -137,6 +139,8 @@ middleware              :   <a href="#middleware">middleware</a>
         app.get('/', (req, res) => {
           res.send('Hello World!');
         });
+
+        app.listen(port);
     </code>
 </pre>
 
@@ -203,63 +207,55 @@ middleware              :   <a href="#middleware">middleware</a>
 |Dynamic loading      |Easy (require())       |Use import() for dynamic|
 
 
-###- import ; multiple imports ; require
+<h4 style="text-align:center">Code EG: import ; multiple imports ; require</h4> 
 <pre>
 <a href="#sheryians-node-backend-domination" style="float:right">Top</a>
 <code class="language-js line-numbers">
-        import fs from 'fs';
-        
-        //---------------------------------------
-        
-        import {
-            foo, bar,
-          } from './myModule.js';
-
-        //---------------------------------------
-        
-        import {
-            reallyLongFunctionName as shortName,
-            anotherOne as ao
-          } from './utils.js';
-
-        //---------------------------------------
-
-        const fs = require('fs');     
+    import fs from 'fs';        
+----------------------------------------------          
+    import {
+        foo, bar,
+        } from './myModule.js';        
+----------------------------------------------
+    import {
+        reallyLongFunctionName as shortName,
+        anotherOne as ao
+        } from './utils.js';
+----------------------------------------------
+    const fs = require('fs');     
 </code>
 </pre>
 
 ## middleware
 <pre>
 <a href="#sheryians-node-backend-domination" style="float:right">Top</a>
-    <div style="background-color:#FEE7E7">
-        How to identify middleware function?
-            - Any function that has access to req, res, next is a middleware function
+    How to identify middleware function?
+        - Any function that has access to req, res, next is a middleware function
 
-        Then does app.get(route, handler) has access to req, res, next?
-            - yes it does, then what is difference between this and middleware?
-            - middleware is a super set of which routes are a subset!
-            - so very route function is middleware
+    Then does app.get(route, handler) has access to req, res, next?
+        - yes it does, then what is difference between this and middleware?
+        - middleware is a super set of which routes are a subset!
+        - so every route function is middleware
 
-        Why? - need of middleware
-            - Eg Kafka is middleware but in terms of node middleware is bit different
-            - think of it as a hook
-            -  The flow is as below (using tricle down, step struct, to indicate the flow sequence)
-                - Browser ⬇️
-                    - middleware ⬇️
-                        - route functions ⬇️
-                            - route handlers!
+    Why? - need of middleware
+        - Eg Kafka is middleware but in terms of node middleware is bit different
+        - think of it as a hook
+        -  The flow is as below
+            - req originates from browser ➡️ middleware ➡️ route functions ➡️ route handlers function
 
-        Usecases of middleware.
-            - Authentication and Authorization
-            - Every request needs to be Authenticated 
-            - Think of it as fixtures in playwright that run before each testcase
-            - ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-            - check something before it reaches the route function
-            - add something to the request before it reaches the route function use middleware
-    </div>
+    Usecases of middleware.
+        - Authentication and Authorization
+        - Every request needs to be Authenticated
+        - Middleware does the Authentication and adds a access token or bearer token to EACH request
+        - Its like request has to pass defined middleware functions to reach route functions
+        - Think of it similar fixtures in playwright that run before each testcase
+        - ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        - check something before it reaches the route function
+        - add something to the request before it reaches the route function use middleware
 </pre>
 
-###- <strong>HTTP Server Code Ref:</strong>
+<h4 style="text-align:center">How to USE middleware</h4>
+
 <pre>
 <a href="#sheryians-node-backend-domination" style="float:right">Top</a>
     <code class="language-js line-numbers">
@@ -281,7 +277,7 @@ middleware              :   <a href="#middleware">middleware</a>
             next();
         }
 
-        app.use(middleFunc2, middleFunc1);
+        app.use(middleFunc2, middleFunc1); // this is where node knows what middleware are to be used
 
         app.get('/', (req, res) => {
             res.send('Testing Middleware');
@@ -292,7 +288,8 @@ middleware              :   <a href="#middleware">middleware</a>
 </pre>
 
 
-### sessions
+<h4 style="text-align:center">sessions</h4>
+
 <pre>
 <a href="#sheryians-node-backend-domination" style="float:right">Top</a>
 - Session vs cookies❓
@@ -302,44 +299,101 @@ middleware              :   <a href="#middleware">middleware</a>
     - Cookies are for Frontend where as sessions are for backend
 
 - Caution with session⚠️
-    - Since after restart they vanish, need to be careful
+    - Since after restart they vanish, need to be careful with nodemon
 
 - Usecase
     - EG Say you want to send data from 1 process to other process or 1 program to other
     - In that case u create a temp file write to file and read that file
+    - here the process is routes say /post route wants to send something to /get route it will use session
     - session is just like that file but in-memory file
 </pre>
 
-####- How to use sessions in code
+<h4 style="text-align:center">How to use sessions in code</h4>
+
 <pre>
-    <code class="language-js line-numbers">
-    const express = require('express');
-    const app = express();
-    const expressSession = require('express-session');
+<a href="#sheryians-node-backend-domination" style="float:right">Top</a>
+<code class="language-js line-numbers">
+       const express = require('express');
+       const app = express();
+       const expressSession = require('express-session');
+       const session = expressSession({
+            secret: 'gfg-key',          // encrypt the session on server
+            resave: false,              // don't save session if unmodified
+            saveUninitialized: true     // don't create session until something 
+            });                         // stored eg if user just visits the page wihtout loging in
+        
 
-    const session = expressSession({
-        secret: 'gfg-key',      // encrypt the session on server
-        resave: false,          // don't save session if unmodified
-        saveUninitialized: true // don't create session until something 
-                                   // stored eg if user just visits the page wihtout loging in
-    });
+        app.use(session); // use session in express app
 
-    app.use(session); // use session in express app
-
-    app.get('/', (req, res) => {
-        // check if session is already created
-        if (req.session.views) {
-            req.session.views++;
-            res.send(`You have visited this page ${req.session.views} times`);
-        } else {
-            req.session.views = 1;
-            res.send('Welcome to the session demo. Refresh!');
+        app.get('/', (req, res) => {
+            // check if session is already created
+            if (req.session.views) {
+                req.session.views++;
+                res.send(`You have visited this page ${req.session.views} times`);
+            } else {
+                req.session.views = 1;
+                res.send('Welcome to the session demo. Refresh!');
+            }
         }
-    }
-    );
-    </code>
+        );
+</code>
 </pre>
-##=-=-=-=-=-=-=-=
+
+<h4 style="text-align:center">session vs flash</h4>
+<pre>
+<a href="#sheryians-node-backend-domination" style="float:right">Top</a>
+    1. Session
+       1. Session stores data on server for the SAME USER across MULTIPLE requests
+    2. Flash Session
+       1. Temp storage mechanism within a session
+       2. Data is avilable only for next request and it is cleared!
+       3. Best usecase 
+          1. User enters wrong creds, 
+          2. user should be redirected to same page with error message
+          3. After that the message is removed from session
+</pre>
+
+<h4 style="text-align:center">Code snippet:session vs flash</h4>
+<pre>
+<a href="#sheryians-node-backend-domination" style="float:right">Top</a>
+    <code class="language-js">
+        const express = require('express');
+        const app = express();
+        const session = require('express-session');
+        const flash = require('connect-flash');
+        // setting up session middleware----------------------------
+        const sessionMiddleware = session({
+            resave: false,
+            saveUninitialized: false,
+            secret: "some temp secret"
+        });
+        // setup flash middleware------------------------------------
+        const flashMiddleware = flash();
+        // Middleware to set up session and flash messages----------
+        app.use(sessionMiddleware, flashMiddleware);
+        // Route function to set up flash messages------------------
+        app.get('/flash', (req, res) => {
+            req.flash('info', 'Flash is back!');
+            res.redirect('/show-flash');
+        });
+        // Route function to show flash messages--------------------
+        // This route will be called after the flash message is set
+        app.get('/show-flash', (req, res) => {
+            const flashMessages = req.flash('info');
+            res.send(flashMessages);
+        });
+        // flash message is empty this time coz it is already consumed--
+        app.get('/try-access-flash-again', (req, res) => {
+            const flashMessages = req.flash('info');
+            res.send(flashMessages);
+        });
+
+        app.listen(3000);
+</code>
+</pre>
+
+## =-=-=-=-=-=-=-=
+<h4 style="text-align:center">=-=-=-=-=-=-=-=</h4>
 <pre>
 <a href="#sheryians-node-backend-domination" style="float:right">Top</a>
 <hr style="height:.5px;background-color:black">
