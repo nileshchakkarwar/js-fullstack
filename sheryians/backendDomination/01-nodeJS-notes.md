@@ -30,7 +30,8 @@ middleware              :   <a href="#middleware">middleware</a>
       - [connect-flash](#connect-flash)
       - [CORS](#cors)
       - [cookie-parser](#cookie-parser)
-      - [morgan for logging](#morgan-for-logging)
+      - [morgan](#morgan)
+      - [static](#static)
   - [=-=-=-=-=-=-=-=](#-------)
 
 
@@ -584,13 +585,59 @@ Cookie configuration options:
 </code>
 </pre>
 
-#### morgan for logging
-<h4 style="text-align:center">Loggin : Morgan</h4>
+#### morgan
+<h4 style="text-align:center">Intercept and Log the request - Morgan</h4>
 
 <pre>
 <a href="#sheryians-node-backend-domination" style="float:right">Top</a>
+What is morgan?
+    - While receiving request from froentend how do we ensure that the request is 
+    - received correctly to the server
+    - morgan is like the first middleware where the bare request is shown
+<hr>
+Various morgan configurations
+    - combined        : Standard Apache combined log format, includes referrer and user-agent.
+    - common          : Similar to combined but without referrer and user-agent.
+    - dev             : Concise output with colored status codes, ideal for development.
+    - short           : Shorter than combined, focusing on response times and status codes.
+    - tiny            : Minimal output, logging only method, URL, status, content length, and response time.
+    - custom formats  : Define your own format using tokens or functions.
+    - stream          : Redirect logs to a file or external logging system.
+    - skip            : Conditionally exclude logs based on request or response properties.
+    - immediate       : Logs requests before the response is sent.
 </pre>
 
+
+<pre>
+<a href="#sheryians-node-backend-domination" style="float:right">Top</a>
+<code class="language-js">
+    const express = require('express');
+    const morgan = require('morgan');
+    const app = express();
+    const port = 3000;
+
+
+    app.use(morgan('short'));
+    app.get('/',(req,res)=>{
+      res.send('Demo to view Morgan interceptor')
+    })
+
+    app.listen(port);
+
+    // ::1 - GET / HTTP/1.1 304 - - 15.906 ms
+</code>
+</pre>
+
+#### static
+<h4 style="text-align:center">Static - Built-in Middleware</h4>
+
+<pre>
+<a href="#sheryians-node-backend-domination" style="float:right">Top</a>
+Usecase:
+    - <b>express.static()</b> is a built-in middleware function in Express.js that serves static files 
+    - like HTML, CSS, JavaScript, images, and other assets. 
+    - It helps deliver these files directly to the client without additional processing.
+</pre>
 
 ## =-=-=-=-=-=-=-=
 <h4 style="text-align:center">=-=-=-=-=-=-=-=</h4>
