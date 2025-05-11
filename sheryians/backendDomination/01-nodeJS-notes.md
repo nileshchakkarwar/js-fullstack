@@ -26,6 +26,11 @@ middleware              :   <a href="#middleware">middleware</a>
   - [status codes](#status-codes)
   - [import vs require](#import-vs-require)
   - [middleware](#middleware)
+      - [express-session](#express-session)
+      - [connect-flash](#connect-flash)
+      - [CORS](#cors)
+      - [cookie-parser](#cookie-parser)
+      - [morgan for logging](#morgan-for-logging)
   - [=-=-=-=-=-=-=-=](#-------)
 
 
@@ -100,14 +105,41 @@ middleware              :   <a href="#middleware">middleware</a>
 ## http server vs express server
 <pre>
 <a href="#sheryians-node-backend-domination" style="float:right">Top</a>
-        - JS is a single threaded webserver
-        - By doing using <b>http.createServer()</b> we are formally defining the thread that will always 
+Difference process v/s thread v/s worker thread?
+    - process       : 
+                    - OS defination of work is process
+                    - process can have sub-process that can have threads under it
+    - thread        :
+                    - sub unit of work under process is thread
+                    - hence threads don't have memory access outside a process
+                    - threads cannot have sub threads
+    - worker thread :
+                    - there is no hierarchy, no children only siblings
+                    - worker thread and thread is same
+                    - only difference is the worker thread works in background (demon)
+<hr>
+Some core idea:
+    - JS is a single threaded webserver that uses worker threads with non blocking I/O
+    - LibUV is a C++ library that does the magic for JS
+    - By doing using <b>http.createServer()</b> we are formally defining the thread that will always 
           be ready to accept any requests directed towards it
-
-        - req ➡️ node ➡️ rsp
-            - req and rsp are terminologies that are always in context of server.
-            - requesting a server
-            - response from a server
+<hr>
+Doesn't Django and other applications use threads?
+    - Django uses a multi thread model
+    - meaning that Django spawns multiple threads (worker threads in advance)
+    - each request is assigned to a worker in thread pool
+    - hence the ounce of management is on the framework - Django
+    - where as in JS frameworks like Express just have to deal with the main thread!!
+<hr>
+GIL and how it gets bypassed:
+    - Global Interpreter lock is a mechanism that limits the parallel execution of threads under a process
+    - Hence when django reaches the GIL limit it spawns a new child process and that process spawns threads
+<hr>
+Flow of request once it reaches node server:
+    - req ➡️ node ➡️ rsp
+      - req and rsp are terminologies that are always in context of server.
+      - requesting a server
+      - response from a server
 </pre>
     
 <h4 style="text-align:center">HTTP Server Code Reference</h4>
@@ -287,7 +319,7 @@ middleware              :   <a href="#middleware">middleware</a>
     </code>
 </pre>
 
-
+#### express-session
 <h4 style="text-align:center">sessions</h4>
 
 <pre>
@@ -295,7 +327,7 @@ middleware              :   <a href="#middleware">middleware</a>
 - Session vs cookies❓
     - A temp datastore
     - Stays only till the server is up and running
-    - other words if server restarted then the session is wiped out
+    - in other words if server restarted then the session is wiped out
     - Cookies are for Frontend where as sessions are for backend
 
 - Caution with session⚠️
@@ -339,21 +371,26 @@ middleware              :   <a href="#middleware">middleware</a>
 </code>
 </pre>
 
-<h4 style="text-align:center">session vs flash</h4>
+#### connect-flash
+<h4 style="text-align:center">session vs flash in session</h4>
+
 <pre>
 <a href="#sheryians-node-backend-domination" style="float:right">Top</a>
     1. Session
-       1. Session stores data on server for the SAME USER across MULTIPLE requests
+       1. Library name: <b><i>express-session</i></b>
+       2. Session stores data on server for the SAME USER across MULTIPLE requests
     2. Flash Session
-       1. Temp storage mechanism within a session
-       2. Data is avilable only for next request and it is cleared!
-       3. Best usecase 
+       1. Library name: <b><i>connect-flash</i></b>
+       2. Temp storage mechanism within a session
+       3. Data is avilable only for next request and it is cleared!
+       4. Best usecase 
           1. User enters wrong creds, 
           2. user should be redirected to same page with error message
           3. After that the message is removed from session
 </pre>
 
 <h4 style="text-align:center">Code snippet:session vs flash</h4>
+
 <pre>
 <a href="#sheryians-node-backend-domination" style="float:right">Top</a>
     <code class="language-js">
@@ -391,6 +428,169 @@ middleware              :   <a href="#middleware">middleware</a>
         app.listen(3000);
 </code>
 </pre>
+
+#### CORS
+<h4 style="text-align:center">CORS</h4>
+
+<pre>
+<a href="#sheryians-node-backend-domination" style="float:right">Top</a>
+What is CORS:
+    - Cross Origin Resource Sharing
+    - Unlike earlier webserver where the froentend and backend used to sit on same domain
+    - eg: https://my-domain.com
+    - today the froentend can sit on https://a-domain.com
+    - and backend can sit on https://b-domain.com
+    - how will application know that a-domain is the actual froentend for the application
+    - here we enable cors enabled in backend application to accept request from a-domain
+    - we can keep it open to all or even restrict the access
+      - Without CORS            : No one gets in except the host.
+      - With unrestricted CORS  : Everyone is welcome.
+      - With selective CORS     : Only invited or whitelisted guests can enter.
+</pre>
+
+<h4 style="text-align:center">Code Snippet : CORS</h4>
+
+<pre>
+<a href="#sheryians-node-backend-domination" style="float:right">Top</a>
+    <code class="language-js line-numbers">
+        Access-Control-Allow-Origin: http://foo.example             // What domain is allowed
+        Access-Control-Allow-Methods: POST, GET                     // What method is allowed
+        Access-Control-Allow-Headers: X-PINGOTHER, Content-Type     // What header is allowed
+        Access-Control-Max-Age: 86400
+    </code>
+<hr>
+    <code class="language-js line-numbers">
+        const express = require('express');
+        const cors = require('cors');
+
+        const app = express();
+
+        // Define allowed origins
+        const allowedOrigins = ['https://mytrustedwebsite.com', 'https://anothertrustedsite.com'];
+
+        app.use(cors({
+          origin: function (origin, callback) {
+            if (!origin || allowedOrigins.includes(origin)) {
+              callback(null, true); // Allow request
+            } else {
+              callback(new Error('Not allowed by CORS')); // Block request
+            }
+          }
+        }));
+
+        app.get('/data', (req, res) => {
+          res.json({ message: 'Selective CORS is working!' });
+        });
+
+        app.listen(3000, () => console.log('Server running on port 3000'));
+    </code>
+</pre>
+
+#### cookie-parser
+<h4 style="text-align:center">Cookies Fundamentals</h4>
+
+<pre>
+<a href="#sheryians-node-backend-domination" style="float:right">Top</a>
+Useful cookie chromium browser extension.
+    - Recommendation is to use <b><i>EditThisCookie</i></b>
+<hr>
+What are cookies?
+    - Just like the session that store temp data on server cookies store temp data on 
+      browser or client (mobile app)
+    - eg:
+      - How does youtube know that last time where did I stop the video or on what 
+        number was the user on the playlist
+      - this is achieved via cookies
+      - cookies play a major role in mobile applications
+<hr>
+Cookies and its scope?
+    - Domain Scope                      :
+                                        - On <i>example.com</i> level if configured properly it can be used on 
+                                          <i>sub.example.com</i>
+    - Path Scope                        :
+                                        - A cookie set for /dashboard won't be accessible from /profile
+    - Session vs Persistant Cookies     :
+                                        - Session Cookie is valid only till browser is kept open
+                                        - Persistant Cookie is stored till predefiend expiration time
+    - SameSite Attribute                :
+                                        - Restricts cookies to be sent accross different sites
+    - Secure and HTTPOnly Flag          :
+                                        - Secure cookies are transmitted only over HTTPs
+                                        - where as HTTPOnly CANNOT be accessed via JavaScript!!
+<hr>
+How backend gets access to cookies?
+    - As we see for every request we have access to the desired scope of cookies
+    - even if the object contains cookies the are not directly accessible until we parse them
+    - here we use cookie parser module
+<hr>
+Cookie configuration options:
+    - <a href="../backendDomination/02-images/cookiesAndOptions.png">EditThisCookie option to demo various configurations for cookies</a>
+    - Note the configurable options such as :
+                                            - value
+                                            - domain
+                                            - path
+                                            - expiration
+                                            - hostonly
+                                            - session
+                                            - secure
+                                            - HttpOnly 
+</pre>
+
+
+<h4 style="text-align:center">Code Reference : Getting & Setting Cookies</h4>
+
+<pre>
+<a href="#sheryians-node-backend-domination" style="float:right">Top</a>
+<code class="language-js">
+    const express = require('express');
+    const cookiesParser = require('cookie-parser');
+
+    const app = express();
+    const port = 3000;
+
+    app.use(cookiesParser());
+
+    app.get('/', (req, res) => {
+      res.send(`Avilable routes: 
+        /setting-cookie, 
+        /get-cookie, 
+        /delete-cookie`);
+    });
+
+    app.get('/setting-cookie', (req, res) => {
+      res.cookie('user', 'John Doe', { maxAge: 900000, httpOnly: true }); 
+                //user is key and John Doe is value
+                // maxAge is the time in milliseconds for which the cookie will be valid
+                // httpOnly is a flag that makes the cookie inaccessible to JavaScript's Document.cookie API
+                // and only the server can access it
+      res.send('Cookie is set');
+    });
+
+    app.get('/get-cookie', (req, res) => {
+      const user = req.cookies.user;   // note how here the **req** is used and cookie is available to each request 
+      if (user) {
+        res.send(`User cookie: ${user}`);
+      } else {
+        res.send('No user cookie found');
+      }
+    });
+
+    app.get('/delete-cookie', (req, res) => {
+      res.clearCookie('user');
+      res.send('User cookie deleted');
+    });
+
+    app.listen(port);
+</code>
+</pre>
+
+#### morgan for logging
+<h4 style="text-align:center">Loggin : Morgan</h4>
+
+<pre>
+<a href="#sheryians-node-backend-domination" style="float:right">Top</a>
+</pre>
+
 
 ## =-=-=-=-=-=-=-=
 <h4 style="text-align:center">=-=-=-=-=-=-=-=</h4>
