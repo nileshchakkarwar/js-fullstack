@@ -32,6 +32,7 @@ middleware              :   <a href="#middleware">middleware</a>
       - [cookie-parser](#cookie-parser)
       - [morgan](#morgan)
       - [static](#static)
+  - [req \& res](#req--res)
   - [=-=-=-=-=-=-=-=](#-------)
 
 
@@ -637,6 +638,38 @@ Usecase:
     - <b>express.static()</b> is a built-in middleware function in Express.js that serves static files 
     - like HTML, CSS, JavaScript, images, and other assets. 
     - It helps deliver these files directly to the client without additional processing.
+</pre>
+
+## req & res
+<h4 style="text-align:center">req details</h4>
+<pre>
+<a href="#sheryians-node-backend-domination" style="float:right">Top</a>
+- Request is that comes from browsers to server. 
+- It is big objects but below are few most used value
+
+    - req.params  :   these are URL parameters
+    - req.body    :   forms data
+    - req.cookies :   authentication section|session is for backend|cookies for frontend
+                  :   cookies store login info such as username, passwords etc
+    - req.query   :   url having data e.g pageSize=3000
+    - req.ip      :   client ip address
+    - req.headers :   client system metadata such as host, os browser details client id, company etc
+    - req.url     :   endpoint that is called (/ or /profile or etc)
+    - req.method  :   https verb
+</pre>
+
+<h4 style="text-align:center">res details</h4>
+<pre>
+<a href="#sheryians-node-backend-domination" style="float:right">Top</a>
+- Res that server sends back to the browser!!
+</pre>
+
+<h4 style="text-align:center">Dynamic Routing - Handling Variable paths</h4>
+<pre>
+<a href="#sheryians-node-backend-domination" style="float:right">Top</a>
+- Profile for each user is going to be different, /profile/nilesh /profile/sana etc
+- Creating /nilesh /sana and such user is limitless
+- To handle this is called handling variable paths
 </pre>
 
 ## =-=-=-=-=-=-=-=
