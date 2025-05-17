@@ -1,14 +1,10 @@
 const express = require('express');
-const morgan = require('morgan');
 const app = express();
-const port = 3000;
 
+// note even if the username is right in front it is accessed using
+// req.param.username
+app.get('/profile/:username', (req,res)=>{
+  res.send(`This is the username entered in URL - ${req.params.username}`);
+});
 
-app.use(morgan('short'));
-app.get('/',(req,res)=>{
-  res.send('Demo to view Morgan interceptor')
-})
-
-app.listen(port);
-
-// ::1 - GET / HTTP/1.1 304 - - 15.906 ms
+app.listen(3000);

@@ -161,20 +161,30 @@ Flow of request once it reaches node server:
     </code>
 </pre>
 
-<h4 style="text-align:center">Express Code Reference</h4>
+<h4 style="text-align:center">Express Code Ref with Catch-all provision</h4>
 
 <pre>
 <a href="#sheryians-node-backend-domination" style="float:right">Top</a>
     <code class="language-js line-numbers">
-        const express = require('express');
-        const app = express();
-        const port = 3000;
+    const express = require('express');
+    const app = express();
 
-        app.get('/', (req, res) => {
-          res.send('Hello World!');
-        });
+    app.get('/profile/:username', (req,res)=>{
+      res.send(`This is the username entered in URL - ${req.params.username}`);
+    });
 
-        app.listen(port);
+    // this is catch-all route
+    app.use((req, res) => {
+        res.status(404).send("Looks like * that is wildcard char is replaced with app.use");
+    });
+
+    // old catch-all route used to be as below
+        // app.get("*",(req, res) => {
+        //     res.status(404).send("NO LONGER in USE!!");
+        // });
+
+
+    app.listen(3000);
     </code>
 </pre>
 
@@ -664,12 +674,32 @@ Usecase:
 - Res that server sends back to the browser!!
 </pre>
 
-<h4 style="text-align:center">Dynamic Routing - Handling Variable paths</h4>
+<h4 style="text-align:center">Static vs Dynamic Routing - Handling Variable paths</h4>
 <pre>
 <a href="#sheryians-node-backend-domination" style="float:right">Top</a>
-- Profile for each user is going to be different, /profile/nilesh /profile/sana etc
-- Creating /nilesh /sana and such user is limitless
-- To handle this is called handling variable paths
+- Usecase:
+    - Creating different paths for each user is not efficient, /profile/nilesh /profile/sana etc
+    - Creating /nilesh /sana and such user is inefficient
+    - To handle this is called handling variable paths
+<hr>
+- Static Route:
+    - The URL does not change and is manually set. For example, example.com/about always leads to the "About" page. 
+    - These URLs are easy to read and good for pages that don't change often.
+<hr>
+- Dynamic Routes:
+    - The URL can change based on user input or data. For example, example.com/user/123 might show details for user ID 123, while example.com/user/456 shows info for user 456.
+    - Dynamic routes are great for websites that have a lot of changing content, like profiles, products, or posts.
+<hr>
+    <code class="language-js">
+    const express = require('express');
+    const app = express();
+    // note even if the username is right in front in url it is accessed using
+    // req.param.username
+    app.get('/profile/:username', (req,res)=>{
+        res.send(`This is the username entered in URL - ${req.params.username}`);
+    });
+    app.listen(3000);
+    </code>
 </pre>
 
 ## =-=-=-=-=-=-=-=
