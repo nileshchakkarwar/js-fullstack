@@ -33,6 +33,7 @@ middleware              :   <a href="#middleware">middleware</a>
       - [morgan](#morgan)
       - [static](#static)
   - [req \& res](#req--res)
+  - [EJS - Server Side Rendering](#ejs---server-side-rendering)
   - [=-=-=-=-=-=-=-=](#-------)
 
 
@@ -656,7 +657,6 @@ Usecase:
 <a href="#sheryians-node-backend-domination" style="float:right">Top</a>
 - Request is that comes from browsers to server. 
 - It is big objects but below are few most used value
-
     - req.params  :   these are URL parameters
     - req.body    :   forms data
     - req.cookies :   authentication section|session is for backend|cookies for frontend
@@ -683,12 +683,16 @@ Usecase:
     - To handle this is called handling variable paths
 <hr>
 - Static Route:
-    - The URL does not change and is manually set. For example, example.com/about always leads to the "About" page. 
+    - The URL does not change and is manually set. For example, example.com/about always
+      leads to the "About" page. 
     - These URLs are easy to read and good for pages that don't change often.
 <hr>
 - Dynamic Routes:
-    - The URL can change based on user input or data. For example, example.com/user/123 might show details for user ID 123, while example.com/user/456 shows info for user 456.
-    - Dynamic routes are great for websites that have a lot of changing content, like profiles, products, or posts.
+    - The URL can change based on user input or data. 
+    - For example, example.com/user/123 might show details for user ID 123, 
+      while example.com/user/456 shows info for user 456.
+    - Dynamic routes are great for websites that have a lot of changing content, 
+      like profiles, products, or posts.
 <hr>
     <code class="language-js">
     const express = require('express');
@@ -700,6 +704,67 @@ Usecase:
     });
     app.listen(3000);
     </code>
+</pre>
+
+## EJS - Server Side Rendering
+<h4 style="text-align:center">Core Idea</h4>
+<pre>
+<a href="#sheryians-node-backend-domination" style="float:right">Top</a>
+- What is rendering?
+  - Taking raw data (htmls or css) and turning them into VISUALLY UNDERSTANDABLE
+<hr>
+- Need of templating?
+  - Issue with HTML is that you cann't have dynamic values say 2+2 will never be 4
+<hr>
+- How templating works?
+  - User writes html in .ejs file
+  - <b>`<%= %>  for data`</b>
+  - <b>`<%%>  for logic`</b>
+  - As soon as templating engine finds above tag it RESOLVES those values
+  - Generates a new html file who's value are resolved
+  - That is send to the server
+<hr>
+- Difference b/w CSR and SSR?
+  - CSR - Client side rendering
+  - SSR -  Server Site rendering
+  - React is CSR
+  - Ask the question where is the final html getting created?
+    1. In CSR 
+      - EG: React
+      - The bundle of data is sent to the client
+      - Client resources are used to unzip the bundle and run the template engine
+      - Create the final html and then display
+    2. In SSR 
+      - EG normal website built using EJS and Django etc
+      - The templating engine sits on the server side
+      - Server resources are used 
+      - final html is sent to the client
+<hr>
+- What are views?
+  - In express project we create a folder names VIEWS
+  - This folder contains .ejs files
+  - As we know ejs is nothing but html with super-power (templating)
+<hr>
+
+<code class="language-js">
+    const express = require('express');
+    const app = express();
+    const port = 3000;
+    // notify the express engine that use ejs template
+    app.set('view engine', 'ejs');
+    // instead of res.send since we want html indicate to render res.render
+    app.get('/', (req,res)=>{
+      res.render('index')        // we have not given path yet express know to search VIEWS folder
+    })
+    // ----- default route
+    app.use((req, res)=>{
+      res.send('You have entered a unknown url');
+    })
+    // ---------------------------------------------
+    app.listen(port);
+</code>
+<a href="./02-images/ejs.viewsDir.error.png">IMG: Error if views folder is not defiend or render file is not defined</a>
+
 </pre>
 
 ## =-=-=-=-=-=-=-=
