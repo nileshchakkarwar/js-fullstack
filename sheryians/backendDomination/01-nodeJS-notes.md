@@ -34,6 +34,8 @@ middleware              :   <a href="#middleware">middleware</a>
       - [static](#static)
   - [req \& res](#req--res)
   - [EJS - Server Side Rendering](#ejs---server-side-rendering)
+    - [Core Idea](#core-idea)
+    - [Handling Forms](#handling-forms)
   - [=-=-=-=-=-=-=-=](#-------)
 
 
@@ -707,6 +709,8 @@ Usecase:
 </pre>
 
 ## EJS - Server Side Rendering
+
+### Core Idea
 <h4 style="text-align:center">Core Idea</h4>
 <pre>
 <a href="#sheryians-node-backend-domination" style="float:right">Top</a>
@@ -735,13 +739,15 @@ Usecase:
       - Client resources are used to unzip the bundle and run the template engine
       - Create the final html and then display
     2. In SSR 
-      - EG normal website built using EJS and Django etc
+      - EG normal website built using EJS or Django etc
       - The templating engine sits on the server side
       - Server resources are used 
       - final html is sent to the client
 <hr>
 - What are views?
   - In express project we create a folder names VIEWS
+  - This folder has to be in project root
+  - This name is recognised by the Express framework
   - This folder contains .ejs files
   - As we know ejs is nothing but html with super-power (templating)
 <hr>
@@ -764,7 +770,51 @@ Usecase:
     app.listen(port);
 </code>
 <a href="./02-images/ejs.viewsDir.error.png">IMG: Error if views folder is not defiend or render file is not defined</a>
+</pre>
 
+### Handling Forms
+<h4 style="text-align:center">Handling FORMs</h4>
+<pre>
+<a href="#sheryians-node-backend-domination" style="float:right">Top</a>
+
+![forms basic format](./02-images/forms.png)
+<hr>
+<code class="language-js">
+    const express = require('express');
+    const app = express();
+    const port = 3000;
+    app.set('view engine', 'ejs') //setting view engine
+    app.use(express.json());
+    app.use(express.urlencoded({ extended: true })); 
+    app.get('/', (req, res) => {
+      res.render('index')
+    })
+    app.get('/form', (req, res) => {
+      console.log(req.query);         // NOT params but query 
+    })                                // /profile/:username is params  
+    app.use((req, res) => {
+      res.send('You have reached to a endpoint that is not listed')
+    })
+    app.listen(port);
+</code>
+<hr>
+Q: How to send data from frontend(browser) to backend?
+    - HTML provides FORMS
+<hr>
+Q: Important fields of FORMS
+    - action to map to route in backend
+    - name attribute is required as it is the key for the value user enters in inputs
+<hr>
+Q: Impact of GET / POST method on how the data is shared?
+
+<hr>
+Q: Difference between req.query vs req.params?
+
+<hr>
+Q: Actual need of action in form tag?
+    - Notice that index is rendered on /
+    - But we need to specify the route in form where the form data will be handled
+    - So index is at / and the processing of the form happens on /form route
 </pre>
 
 ## =-=-=-=-=-=-=-=
