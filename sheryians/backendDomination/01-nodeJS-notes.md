@@ -801,14 +801,20 @@ Usecase:
 Q: How to send data from frontend(browser) to backend?
     - HTML provides FORMS
 <hr>
-Q: Important fields of FORMS
-    - action to map to route in backend
-    - name attribute is required as it is the key for the value user enters in inputs
+Q: Important FORMS fields 
+    - <strong>action</strong> is used to map to route in backend
+    - <strong>name</strong> attribute is required as it is the key for the value user enters in inputs
 <hr>
 Q: Impact of GET / POST method on how the data is shared?
-
+    - <a href="./02-images/connect-FEAction-BERoute.png">IMG: How action in forms connects the respective route in backend</a>
+    - If path mentioned under action has GET verb then the values are sent via URL
+    - If path mentioned under action has POST verb then the values are send via body!
 <hr>
 Q: Difference between req.query vs req.params?
+    - req.params are OPTIONAL parameters in the URL eg forms - FE action - BE get
+    - req.query are REQUIRED parameters specified in ROUTE path
+    - EG app.get("/profile/:username") === req.params.username
+    - <a href="./02-images/form-sendsDatainURL.png">IMG: how form data is send via URL is query parameter|req.query</a>
 
 <hr>
 Q: Actual need of action in form tag?

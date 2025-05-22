@@ -7,8 +7,9 @@ app.use(express.urlencoded({ extended: true }));
 app.get('/', (req, res) => {
   res.render('index')
 })
-app.get('/form', (req, res) => {
+app.get('/form', (req, res,next) => {
   console.log(req.query);
+  next();
 })
 app.use((req, res) => {
   res.send('You have reached to a endpoint that is not listed')
