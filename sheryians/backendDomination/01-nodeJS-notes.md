@@ -36,6 +36,7 @@ middleware              :   <a href="#middleware">middleware</a>
   - [EJS - Server Side Rendering](#ejs---server-side-rendering)
     - [Core Idea](#core-idea)
     - [Handling Forms](#handling-forms)
+  - [Organise Routes](#organise-routes)
   - [=-=-=-=-=-=-=-=](#-------)
 
 
@@ -794,12 +795,12 @@ Usecase:
     app.listen(port);
 </code>
 <hr>
-I:  app.use(express.json()) explain
-    - Supports data in json format for RESTful apis (json stringify and json parse)
+Info:  app.use(express.json()) explain
+        - Supports data in json format for RESTful apis (json stringify and json parse)
 <hr>
-I:  app.use(express.urlencoded({ extended: true }));
-    - due to this line express now supports forms
-    - advanced forms such as google forms and any other kind of forms
+Info:  app.use(express.urlencoded({ extended: true }));
+        - due to this line express now supports forms
+        - advanced forms such as google forms and any other kind of forms
 <hr>
 Q:  How to send data from frontend(browser) to backend?
     - HTML provides FORMS
@@ -830,14 +831,30 @@ Q:  Actual need of action in form tag?
     - So index is at (/) and the processing of the form happens on /form route
 
 <hr>
-I:  Basic checks in case of forms
-    - ejs/html tag must have name property
-    - form should have action specified to correct path in backend
-    - backend should have correct route to catch the form
-    - type should be get/post
-      - GET     : req.query     | <a href="./02-images/formMethod.GetDemo.png">IMG: Default form method GET data sent via url|req.query</a>
-      - POST    : req.body      | <a href="./02-images/formMethod.PostDemo.png">IMG: POST Method to send data via body|req.body</a>
+Info:  Basic checks in case of forms
+        - ejs/html tag must have name property
+        - form should have action specified to correct path in backend
+        - backend should have correct route to catch the form
+        - type should be get/post
+          - GET     : req.query     | <a href="./02-images/formMethod.GetDemo.png">IMG: Default form method GET data sent via url|req.query</a>
+          - POST    : req.body      | <a href="./02-images/formMethod.PostDemo.png">IMG: POST Method to send data via body|req.body</a>
 </pre>  
+
+## Organise Routes
+<pre>
+<a href="#sheryians-node-backend-domination" style="float:right">Top</a>
+<code class="language-js">
+app.route("/user")
+  .get((req,res)=>res.send('Get for /user'))
+  .post((req,res)=>res.send('POST for /user'))
+  .patch((req,res)=>res.send('PATCH for /user'))
+  .put((req,res)=>res.send('PUT for /user'))
+  .options((req,res)=>res.send(`Supports GET POST PATCH PUT but doesn't support del`))
+</code>
+<hr>
+Info:  Using /user for get, post patch etc would have been redundant so we CHAINED the routes
+</pre>
+
 
 ## =-=-=-=-=-=-=-=
 <h4 style="text-align:center">=-=-=-=-=-=-=-=</h4>
