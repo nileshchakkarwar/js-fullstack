@@ -3,14 +3,19 @@ const app = express();
 const port = 3000;
 app.set('view engine', 'ejs') //setting view engine
 app.use(express.json());
-app.use(express.urlencoded({ extended: true })); 
+app.use(express.urlencoded({ extended: true }));
 app.get('/', (req, res) => {
   res.render('index')
 })
-app.get('/form', (req, res,next) => {
+app.get('/form', (req, res) => {
   console.log(req.query);
-  next();
 })
+
+app.post('/formPostRoute', (req, res) => {
+  console.log(req.body);
+  res.redirect('/')
+})
+
 app.use((req, res) => {
   res.send('You have reached to a endpoint that is not listed')
 })

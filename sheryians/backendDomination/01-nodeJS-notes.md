@@ -2,17 +2,17 @@
 <!-- <pre style="font-family:Consolas;font-size=18px">
 <pre>
 Course Details          :   <a href="#course-details-section">Course Link & Github repo details</a>
-----------------------------------------------------------------------------------------------------
+<hr>
 For Loop Variations     :   <a href="#forloop-all-variation">forLoops</a>
-----------------------------------------------------------------------------------------------------
+<hr>
 node vs nodemon         :   <a href="#node-vs-nodemon">node-vs-nodemon</a>
-----------------------------------------------------------------------------------------------------
+<hr>
 http server vs express  :   <a href="#http-server-vs-express-server">http-server-vs-express-server</a>
-----------------------------------------------------------------------------------------------------
+<hr>
 status codes            :   <a href="#status-codes">status-codes</a>
-----------------------------------------------------------------------------------------------------
+<hr>
 import vs require       :   <a href="#import-vs-require">import-vs-require</a>
-----------------------------------------------------------------------------------------------------
+<hr>
 middleware              :   <a href="#middleware">middleware</a>
 
 
@@ -46,7 +46,7 @@ middleware              :   <a href="#middleware">middleware</a>
 <pre >
 <a href="#sheryians-node-backend-domination" style="float:right">Top</a>
     Course Link             :       <a href="https://sheryians.com/courses/courses-details/Back-End%20Domination:%20Create%20Efficient%20Back-End">This is direct link to Sheryian Website</a>
-    Github Repo link        :       <a href="https://github.com/nileshchakkarwar/js-fullstack">Github: RepoName: js-fullstack</a>     
+    Github Repo link        :       <a href="https://github.com/nileshchakkarwar/js-fullstack">https://github.com/nileshchakkarwar/js-fullstack</a>     
     [Old] Gitlab Repo link  :       <a href="https://gitlab.com/nileshchakkarwar/nodejs-sheryians">Gitlab:nodejs-sheryians</a>
 </pre>
 <pre>
@@ -96,7 +96,7 @@ middleware              :   <a href="#middleware">middleware</a>
 
     How to run?
         - node <i>path-to-app-server-file</i>
-        - <b>NPX</b> nodemon <i>path-to-app-server-file</i>
+        - COMMAND TO RUN A FILE : <b>NPX</b> nodemon <i>path-to-app-server-file</i>
 
     Benefit of nodemon over node
         - if not nodemon then we have to 
@@ -197,8 +197,7 @@ Flow of request once it reaches node server:
     Informational: 
         100 - Basic acknowledgement
         101 - Indicates change of protocol, say from http to webRTC or udp or FTP
-    
-    -----------------------------------------------------------------------------------------
+<hr>
     Success: 
         200 - OK status, all good and nothing remains to be sent from server side
         201 - create a resource on DB/server, eg post, reply comment
@@ -212,8 +211,7 @@ Flow of request once it reaches node server:
             - Request forwarded to third party or
             - request forwarded to another server in distributed system
         204 -  No Content
-    
-    -----------------------------------------------------------------------------------------
+<hr>
     Redirect: 
         301 v/s 308 - Moved Permanently
                     - Eg: www.facebook.com ->301-> meta.com
@@ -223,16 +221,14 @@ Flow of request once it reaches node server:
                     - In cases where a request requires authentication or authorization 
                     - Eg: a 307 redirect can be used to direct users to a login page while preserving the original request method. 
                     - Or when url is undermaintenance
-    
-    -----------------------------------------------------------------------------------------
+<hr>
     User Errors:
         400 - Bad Request; Generic error code
         401 - Unauthorized; Access Token expired or required
         403 - Forbidden, u have valid token but u cann't access this resource
             - User-1 asking data about User-2 private information
         404 - Not found
-    
-    -----------------------------------------------------------------------------------------
+<hr>
     Server Errors:
         500 - Generic error; Internal Server error
         502 - Bad gateway!
@@ -244,14 +240,14 @@ Flow of request once it reaches node server:
 
 ## import vs require
 
-|Feature|require|import|
-|-|-|-|
-|New vs old           |OLD                    |Modern   |
-|Module System        |CommonJS               |ES Modules (ESM)|
-|Execution            |Runtime (synchronous)  |Compile-time (asynchronous)|
-|Environment          |Node.js                |Modern JS (Node + Browser)|
-|Top-level use        |Can use anywhere       |Must be at the top level|
-|Dynamic loading      |Easy (require())       |Use import() for dynamic|
+| Feature         | require               | import                      |
+| --------------- | --------------------- | --------------------------- |
+| New vs old      | OLD                   | Modern                      |
+| Module System   | CommonJS              | ES Modules (ESM)            |
+| Execution       | Runtime (synchronous) | Compile-time (asynchronous) |
+| Environment     | Node.js               | Modern JS (Node + Browser)  |
+| Top-level use   | Can use anywhere      | Must be at the top level    |
+| Dynamic loading | Easy (require())      | Use import() for dynamic    |
 
 
 <h4 style="text-align:center">Code EG: import ; multiple imports ; require</h4> 
@@ -259,16 +255,16 @@ Flow of request once it reaches node server:
 <a href="#sheryians-node-backend-domination" style="float:right">Top</a>
 <code class="language-js line-numbers">
     import fs from 'fs';        
-----------------------------------------------          
+-----------------------------------------------          
     import {
         foo, bar,
         } from './myModule.js';        
-----------------------------------------------
+-----------------------------------------------          
     import {
         reallyLongFunctionName as shortName,
         anotherOne as ao
         } from './utils.js';
-----------------------------------------------
+-----------------------------------------------          
     const fs = require('fs');     
 </code>
 </pre>
@@ -397,7 +393,7 @@ Flow of request once it reaches node server:
     2. Flash Session
        1. Library name: <b><i>connect-flash</i></b>
        2. Temp storage mechanism within a session
-       3. Data is avilable only for next request and it is cleared!
+       3. Data is available only for next request and it is cleared!
        4. Best usecase 
           1. User enters wrong creds, 
           2. user should be redirected to same page with error message
@@ -566,7 +562,7 @@ Cookie configuration options:
     app.use(cookiesParser());
 
     app.get('/', (req, res) => {
-      res.send(`Avilable routes: 
+      res.send(`availableroutes: 
         /setting-cookie, 
         /get-cookie, 
         /delete-cookie`);
@@ -784,8 +780,8 @@ Usecase:
     const app = express();
     const port = 3000;
     app.set('view engine', 'ejs') //setting view engine
-    app.use(express.json());
-    app.use(express.urlencoded({ extended: true })); 
+    app.use(express.json());       
+    app.use(express.urlencoded({ extended: true }));
     app.get('/', (req, res) => {
       res.render('index')
     })
@@ -798,30 +794,50 @@ Usecase:
     app.listen(port);
 </code>
 <hr>
-Q: How to send data from frontend(browser) to backend?
+I:  app.use(express.json()) explain
+    - Supports data in json format for RESTful apis (json stringify and json parse)
+<hr>
+I:  app.use(express.urlencoded({ extended: true }));
+    - due to this line express now supports forms
+    - advanced forms such as google forms and any other kind of forms
+<hr>
+Q:  How to send data from frontend(browser) to backend?
     - HTML provides FORMS
 <hr>
 Q: Important FORMS fields 
     - <strong>action</strong> is used to map to route in backend
     - <strong>name</strong> attribute is required as it is the key for the value user enters in inputs
 <hr>
-Q: Impact of GET / POST method on how the data is shared?
-    - <a href="./02-images/connect-FEAction-BERoute.png">IMG: How action in forms connects the respective route in backend</a>
-    - If path mentioned under action has GET verb then the values are sent via URL
-    - If path mentioned under action has POST verb then the values are send via body!
-<hr>
-Q: Difference between req.query vs req.params?
-    - req.params are OPTIONAL parameters in the URL eg forms - FE action - BE get
-    - req.query are REQUIRED parameters specified in ROUTE path
-    - EG app.get("/profile/:username") === req.params.username
-    - <a href="./02-images/form-sendsDatainURL.png">IMG: how form data is send via URL is query parameter|req.query</a>
+Q:  How form knows which route will handle it data?
+    - <a href="./02-images/connect-FEAction-BERoute.png">IMG: Action property sets the backend route</a>
+    - We have to supply the respective backend route that will handle the form data
 
 <hr>
-Q: Actual need of action in form tag?
-    - Notice that index is rendered on /
+Q:  How form knows to send data via url or body?
+    - method="get" is default i.e if we don't give any method it is GET by default
+    - < form action="/some-backend-path" method="post" >
+<hr>
+Q:  Difference between req.query vs req.params?
+    - req.params are REQUIRED parameters in the URL eg forms - FE action - BE get
+    - req.query are OPTIONAL parameters specified in ROUTE path
+    - EG app.get("/profile/:username") === req.params.username
+    - <a href="./02-images/formMethod.GetDemo.png">IMG: Default form method GET data sent via url|req.query</a>
+
+<hr>
+Q:  Actual need of action in form tag?
+    - Notice that index is rendered on path (/)
     - But we need to specify the route in form where the form data will be handled
-    - So index is at / and the processing of the form happens on /form route
-</pre>
+    - So index is at (/) and the processing of the form happens on /form route
+
+<hr>
+I:  Basic checks in case of forms
+    - ejs/html tag must have name property
+    - form should have action specified to correct path in backend
+    - backend should have correct route to catch the form
+    - type should be get/post
+      - GET     : req.query     | <a href="./02-images/formMethod.GetDemo.png">IMG: Default form method GET data sent via url|req.query</a>
+      - POST    : req.body      | <a href="./02-images/formMethod.PostDemo.png">IMG: POST Method to send data via body|req.body</a>
+</pre>  
 
 ## =-=-=-=-=-=-=-=
 <h4 style="text-align:center">=-=-=-=-=-=-=-=</h4>
