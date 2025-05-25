@@ -37,6 +37,7 @@ middleware              :   <a href="#middleware">middleware</a>
     - [Core Idea](#core-idea)
     - [Handling Forms](#handling-forms)
   - [Organise Routes](#organise-routes)
+  - [Error Handling](#error-handling)
   - [=-=-=-=-=-=-=-=](#-------)
 
 
@@ -831,13 +832,14 @@ Q:  Actual need of action in form tag?
     - So index is at (/) and the processing of the form happens on /form route
 
 <hr>
-Info:  Basic checks in case of forms
-        - ejs/html tag must have name property
-        - form should have action specified to correct path in backend
-        - backend should have correct route to catch the form
-        - type should be get/post
-          - GET     : req.query     | <a href="./02-images/formMethod.GetDemo.png">IMG: Default form method GET data sent via url|req.query</a>
-          - POST    : req.body      | <a href="./02-images/formMethod.PostDemo.png">IMG: POST Method to send data via body|req.body</a>
+Info:  
+    1. Basic checks in case of forms
+       1. ejs/html tag must have name property
+       2. form should have action specified to correct path in backend
+       3. backend should have correct route to catch the form
+       4. type should be get/post
+          1. GET     : req.query     | <a href="./02-images/formMethod.GetDemo.png">IMG: Default form method GET data sent via url|req.query</a>
+          2. POST    : req.body      | <a href="./02-images/formMethod.PostDemo.png">IMG: POST Method to send data via body|req.body</a>
 </pre>  
 
 ## Organise Routes
@@ -852,9 +854,67 @@ app.route("/user")
   .options((req,res)=>res.send(`Supports GET POST PATCH PUT but doesn't support del`))
 </code>
 <hr>
-Info:  Using /user for get, post patch etc would have been redundant so we CHAINED the routes
+Info:  Using |/user| for get, post patch etc would have been redundant so we CHAINED the routes
 </pre>
 
+## Error Handling
+<h4 style="text-align:center">Types of Errors</h4>
+<pre>
+<a href="#sheryians-node-backend-domination" style="float:right">Top</a>
+- Top level error
+    - When the node server itself crashes - <a href="./02-images/errorAppCrashType1.png">IMG Reference</a>
+<hr>
+- Reference Error
+    - Its also referred as req-res cycle error, usually occurs on route level
+    - App works fine, other routes work fine, but when we hit certain route it gives reference error
+</pre>
+
+<h4 style="text-align:center">Handling Errors in API development</h4>
+<pre>
+<a href="#sheryians-node-backend-domination" style="float:right">Top</a>
+<code class="language-js">
+    const express = require('express');
+    const app = express();
+    const port = 3000;
+    --------------------------------------------------
+    app.set('view engine', 'ejs') //setting view engine
+    app.use(express.json());
+    app.use(express.urlencoded({ extended: true }));
+    --------------------------------------------------
+    app.get('/', (req, res) => {
+      res.render('index')
+    })
+    app.get('/form', (req, res) => {
+      console.log(req.query);
+    })
+    --------------------------------------------------
+    app.use((req, res) => {
+      res.send('You have reached to a endpoint that is not listed')
+    })
+    --------------------------------------------------
+    // this is error handler function
+    app.use((err, req, res, next) => {
+      res.send(err.message);
+    })
+    app.listen(port);
+</code>
+<hr>
+Info: 
+    1. Express gives a centralized error handling middleware that sits at the bottom of all functions
+    2. If something goes wrong in any route functions express ITSELF sends the control to error handler
+    3. How does express know what function is middleware, route func, error handler?
+<hr>
+| Feature         | Purpose                                           | Signature             | Placement in Code   |
+| --------------- | ------------------------------------------------- | --------------------- | ------------------- |
+| Middleware      | Modifies request/response or passes control       | (req, res, next)      | Before routes       |
+| Route Functions | Handles HTTP requests for a specific path         | (req, res)            | Matches request URL |
+| Error Handlers  | Handles errors from previous middleware or routes | (err, req, res, next) | Placed at the end   |
+<hr>
+Suggestion: 
+    1. Always use try-catch block with in route functions
+    2. Although express has its mechanism to handle error on route level
+    3. try-catch block gives further control on our code hence its advised to use it 
+</pre>
 
 ## =-=-=-=-=-=-=-=
 <h4 style="text-align:center">=-=-=-=-=-=-=-=</h4>
